@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const client = axios.create({
-  baseURL: import.meta.env.COMP_API_URL || 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_COMP_API_URL || 'http://localhost:8080',
   timeout: 10000,
 })
 
