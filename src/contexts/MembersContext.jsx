@@ -30,12 +30,13 @@ export const MembersProvider = ({ children }) => {
 
   const categorizeMembers = (members) => {
     const mentors = members.filter((member) => member.role === 'Mentor')
-    const oldMembers = members.filter(
-      (member) => member.isActive === 0 && member.role !== 'Mentor'
-    )
+
+    const oldMembers = members.filter((member) => !member.is_active)
+
     const teamMembers = members.filter(
-      (member) => member.isActive === 1 && member.role !== 'Mentor'
+      (member) => member.is_active && member.role !== 'Mentor'
     )
+
     return { mentors, oldMembers, teamMembers }
   }
 

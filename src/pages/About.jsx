@@ -27,6 +27,8 @@ import puclibaIMG from '../assets/images/pucliba.png'
 import SectionContainer from '../components/SectionContainer'
 import SectionTitle from '../components/SectionTitle'
 
+import { Paragraph } from '../styles/Texts'
+
 const About = () => {
   const locations = [
     {
@@ -85,27 +87,29 @@ const About = () => {
             title="Quem somos nós ?"
             titleBgColor={theme.palette.background.paper}
           >
-            <Typography variant="body1" color="text.secondary" paragraph>
-              A COMP é uma <strong>Empresa Júnior</strong> formada por alunos de
-              graduação dos cursos do Instituto de Ciências Exatas e Informática
-              da PUC Minas. Nosso principal produto é o desenvolvimento de
-              softwares sob demanda, criando soluções personalizadas que atendem
-              às necessidades específicas de nossos clientes.
-            </Typography>
+            <Paragraph>
+              A COMP é uma <strong>Empresa Júnior</strong> formada por
+              estudantes de graduação dos cursos do Instituto de Ciências Exatas
+              e Informática da PUC Minas. Especializamo-nos no desenvolvimento
+              de <strong>softwares sob demanda</strong>, criando soluções
+              personalizadas que atendem de forma precisa aos desafios e
+              objetivos dos nossos clientes.
+            </Paragraph>
           </SectionContainer>
 
           <SectionContainer
             title="Propósito"
             titleBgColor={theme.palette.background.paper}
           >
-            <Typography variant="body1" color="text.secondary" paragraph>
-              Nosso propósito é oferecer soluções de{' '}
-              <strong>software sob demanda</strong> com qualidade e inovação,
-              atendendo às necessidades específicas dos clientes. Paralelamente,
-              buscamos promover o desenvolvimento pessoal e profissional de
-              nossos membros, proporcionando experiências reais de mercado que
-              conectam a excelência acadêmica à prática empresarial.
-            </Typography>
+            <Paragraph>
+              Nosso propósito é oferecer oferecer{' '}
+              <strong>soluções de software</strong> de alta qualidade e
+              inovação, sempre alinhadas às necessidades exclusivas de cada
+              cliente. Além disso, temos como missão contribuir para o
+              crescimento pessoal e profissional de nossos membros,
+              proporcionando vivências reais de mercado que conectam o rigor
+              acadêmico à prática empresarial.
+            </Paragraph>
           </SectionContainer>
         </Stack>
       </Container>
@@ -141,7 +145,7 @@ const About = () => {
           </Box>
           {tabValue === 0 && (
             <TabContent>
-              <Typography variant="body1" paragraph>
+              <Paragraph>
                 A COMP nasceu no <strong>dia 3 de março de 2024</strong>,
                 inicialmente sob o nome
                 <strong> T.F.R.L.</strong>, uma sigla que homenageava os
@@ -162,8 +166,8 @@ const About = () => {
                 que reflete a essência da nossa área de atuação e reforça o
                 nosso propósito de desenvolver soluções tecnológicas
                 personalizadas.
-              </Typography>
-              <Typography variant="body1" color="text.secondary" paragraph>
+              </Paragraph>
+              <Paragraph>
                 O primeiro projeto realizado pela COMP foi para{' '}
                 <strong>Bárbara Costa</strong>, uma influenciadora fitness em
                 ascensão, que desejava uma <strong>Landing Page</strong>{' '}
@@ -176,9 +180,9 @@ const About = () => {
                 desenvolvimento web e design, também aluno de Ciência da
                 Computação da PUC Minas. Sua contribuição foi essencial para o
                 sucesso do projeto e para o fortalecimento da equipe.
-              </Typography>
+              </Paragraph>
 
-              <Typography variant="body1" color="text.secondary" paragraph>
+              <Paragraph>
                 Logo após o término do primeiro trabalho, a COMP assumiu um
                 desafio ainda mais complexo: o desenvolvimento do software
                 chamado <strong>"Bolão Sorte Online"</strong>, uma solução
@@ -193,9 +197,9 @@ const About = () => {
                 <strong>conhecimento técnico, inovação e criatividade</strong>,
                 desafiando a equipe a explorar conceitos de estatística aplicada
                 e design de software robusto.
-              </Typography>
+              </Paragraph>
 
-              <Typography variant="body1" color="text.secondary" paragraph>
+              <Paragraph>
                 Agora, em <strong>2025</strong>, a COMP está pronta para iniciar
                 uma nova fase em sua história. Com o objetivo de expandir suas
                 operações e promover o engajamento acadêmico, a empresa abrirá
@@ -206,24 +210,24 @@ const About = () => {
                 criativa da equipe, mas também consolidar a COMP como um espaço
                 de aprendizado e inovação, unindo excelência acadêmica e prática
                 de mercado.
-              </Typography>
+              </Paragraph>
             </TabContent>
           )}
 
           {tabValue === 1 && (
             <TabContent>
-              <Typography variant="body1" color="text.secondary">
+              <Paragraph>
                 Conteúdo da aba "Memórias". Aqui podem estar as memórias da
                 equipe ou momentos importantes.
-              </Typography>
+              </Paragraph>
             </TabContent>
           )}
           {tabValue === 2 && (
             <TabContent>
-              <Typography variant="body1" color="text.secondary">
+              <Paragraph>
                 Conteúdo da aba "Valores". Insira os valores ou missões da
                 equipe ou da empresa.
-              </Typography>
+              </Paragraph>
             </TabContent>
           )}
         </Box>
@@ -291,8 +295,7 @@ const About = () => {
                 <Typography
                   variant="body1"
                   color="text.secondary"
-                  paragraph
-                  sx={{ mt: 1.5 }}
+                  sx={{ my: 1.5 }}
                 >
                   Nossos espaços estão localizados nas unidades da Pontifícia
                   Universidade Católica de Minas Gerais, em Belo Horizonte.

@@ -71,7 +71,10 @@ const Apply = () => {
         <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
           <Grid item xs={12} md={7}>
             <Box sx={{ py: 2 }}>
-              <SectionTitle title="Venha Fazer parte da comp!" titleSize="h3" />
+              <SectionTitle
+                title="Venha Fazer parte do time COMP!"
+                titleSize="h3"
+              />
               <Divider sx={{ my: 2 }} />
               <Typography variant="body1" paragraph>
                 Estamos em busca de estudantes talentosos que queiram crescer
@@ -93,7 +96,10 @@ const Apply = () => {
               </Alert>
             </Box>
             <Box sx={{ py: 2 }}>
-              <SectionTitle title="Benefícios de Entrar na COMP" />
+              <SectionTitle
+                title="Benefícios de Entrar na COMP"
+                titleSize="h4"
+              />
               <Divider sx={{ my: 1.5 }} />
 
               <Grid2 container spacing={2}>

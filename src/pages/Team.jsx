@@ -7,8 +7,8 @@ import {
   Box,
   Grid2,
 } from '@mui/material'
-import ProfileCard from '../components/cards/ProfileCard.jsx'
-import SectionContainer from '../components/SectionContainer.jsx'
+import MemberCard from '../components/cards/MemberCard'
+import SectionContainer from '../components/SectionContainer'
 import { useMembers } from '../contexts/MembersContext'
 
 const Team = () => {
@@ -38,25 +38,27 @@ const Team = () => {
         </Typography>
         <SectionContainer title="Equipe">
           <Grid2
-            spacing={{ xs: 2, md: 3 }}
+            spacing={{ xs: 1, sm: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
+            minHeight={56}
             container
           >
             {teamMembers.map((member) => (
               <Grid2 key={member.id} size={4}>
-                <ProfileCard
+                <MemberCard
                   id={member.id}
                   name={member.name}
                   surname={member.surname}
                   role={member.role}
-                  imageProfile={member.imageProfile}
+                  avatarUrl={member.avatar_url}
+                  bio={member.bio}
                   course={member.course}
-                  description={member.description}
-                  instagramUrl={member.instagramUrl}
-                  githubUrl={member.githubUrl}
-                  linkedinUrl={member.linkedinUrl}
-                  date={member.date}
-                  isActive={member.isActive}
+                  entryDate={member.entry_date}
+                  exitDate={member.exit_date}
+                  isActive={member.is_active}
+                  instagramUrl={member.instagram_url}
+                  githubUrl={member.github_url}
+                  linkedinUrl={member.linkedin_url}
                 />
               </Grid2>
             ))}
@@ -65,25 +67,27 @@ const Team = () => {
         <Box sx={{ my: 3 }} />
         <SectionContainer title="Mentores">
           <Grid2
-            spacing={{ xs: 2, md: 3 }}
+            spacing={{ xs: 1, sm: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
+            minHeight={56}
             container
           >
             {mentors.map((member) => (
               <Grid2 key={member.id} size={4}>
-                <ProfileCard
+                <MemberCard
                   id={member.id}
                   name={member.name}
                   surname={member.surname}
                   role={member.role}
-                  imageProfile={member.imageProfile}
+                  avatarUrl={member.avatar_url}
+                  bio={member.bio}
                   course={member.course}
-                  description={member.description}
-                  instagramUrl={member.instagramUrl}
-                  githubUrl={member.githubUrl}
-                  linkedinUrl={member.linkedinUrl}
-                  date={member.date}
-                  isActive={member.isActive}
+                  entryDate={member.entry_date}
+                  exitDate={member.exit_date}
+                  isActive={member.is_active}
+                  instagramUrl={member.instagram_url}
+                  githubUrl={member.github_url}
+                  linkedinUrl={member.linkedin_url}
                 />
               </Grid2>
             ))}
@@ -92,25 +96,27 @@ const Team = () => {
         <Box sx={{ my: 3 }} />
         <SectionContainer title="Membros Antigos">
           <Grid2
-            spacing={{ xs: 2, md: 3 }}
+            spacing={{ xs: 1, sm: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
+            minHeight={56}
             container
           >
             {oldMembers.map((member) => (
               <Grid2 key={member.id} size={4}>
-                <ProfileCard
+                <MemberCard
                   id={member.id}
                   name={member.name}
                   surname={member.surname}
                   role={member.role}
-                  imageProfile={member.imageProfile}
+                  avatarUrl={member.avatar_url}
+                  bio={member.bio}
                   course={member.course}
-                  description={member.description}
-                  instagramUrl={member.instagramUrl}
-                  githubUrl={member.githubUrl}
-                  linkedinUrl={member.linkedinUrl}
-                  date={member.date}
-                  isActive={member.isActive}
+                  entryDate={member.entry_date}
+                  exitDate={member.exit_date}
+                  isActive={member.is_active}
+                  instagramUrl={member.instagram_url}
+                  githubUrl={member.github_url}
+                  linkedinUrl={member.linkedin_url}
                 />
               </Grid2>
             ))}

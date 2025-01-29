@@ -38,7 +38,6 @@ const Footer = () => {
           href="https://wa.me/5531972003328"
           target="_blank"
           rel="noopener"
-          sx={{ color: 'inherit' }}
         >
           <PhoneIcon />
         </IconButton>
@@ -62,7 +61,7 @@ const Footer = () => {
         }}
       >
         <IconButton
-          href="https://instagram.com/"
+          href="https://www.instagram.com/puccomp/"
           target="_blank"
           rel="noopener"
           sx={{ color: 'inherit' }}
@@ -71,19 +70,17 @@ const Footer = () => {
         </IconButton>
 
         <IconButton
-          href="https://linkedin.com/"
+          href="https://linkedin.com/company/puc-comp"
           target="_blank"
           rel="noopener"
-          sx={{ color: 'inherit' }}
         >
           <LinkedInIcon />
         </IconButton>
 
         <IconButton
-          href="https://github.com/"
+          href="https://github.com/EJ-ICEI-PUC-Minas"
           target="_blank"
           rel="noopener"
-          sx={{ color: 'inherit' }}
         >
           <GitHubIcon />
         </IconButton>

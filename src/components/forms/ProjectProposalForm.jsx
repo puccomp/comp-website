@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   TextField,
   Button,
@@ -9,13 +10,18 @@ import {
   Radio,
   Box,
   Grid,
+  Stack,
+  IconButton,
+  Divider,
 } from '@mui/material'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+
 import PhoneNumberField from '../inputs/PhoneNumberField'
 import NameField from '../inputs/NameField'
+import FeedbackSnackbar from '../FeedbackSnackbar'
 
 import useSubmit from '../../hooks/useSubmit'
 import { submitProjectProposal } from '../../api/client'
-import FeedbackSnackbar from '../FeedbackSnackbar'
 
 const ProjectProposalForm = () => {
   const [formData, setFormData] = useState({
@@ -35,7 +41,10 @@ const ProjectProposalForm = () => {
     visualIdentity,
     budget,
   } = formData
+
   const { handleSubmit, loading, success, error } = useSubmit()
+
+  const navigate = useNavigate()
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -158,17 +167,32 @@ const ProjectProposalForm = () => {
           value={budget}
           onChange={handleChange}
         />
-        <Box textAlign="center" marginTop="1rem">
+        <Stack
+          marginTop="1rem"
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={2}
+          divider={<Divider orientation="vertical" flexItem />}
+        >
+          <IconButton
+            size="small"
+            variant="text"
+            color="primary"
+            onClick={() => navigate('/')}
+          >
+            <ArrowBackIosIcon />
+          </IconButton>
+
           <Button
             variant="contained"
             color="primary"
-            size="large"
             type="submit"
             disabled={loading}
           >
             {loading ? 'Enviando...' : 'Enviar proposta'}
           </Button>
-        </Box>
+        </Stack>
       </form>
 
       <FeedbackSnackbar

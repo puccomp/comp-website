@@ -14,6 +14,7 @@ const useFetch = (fetchFn, args = []) => {
     setError(null)
     try {
       const result = await fetchFn(...args)
+      console.log(result)
       setData(result)
     } catch (err) {
       setError(err)

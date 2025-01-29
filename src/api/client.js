@@ -23,7 +23,6 @@ export const submitCV = async (formData) => {
     const res = await client.post('/api/cv-applications', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
-    console.log(res.data)
     return res.data
   } catch (error) {
     console.error('Error submitting CV:', error.response || error.message)
@@ -37,7 +36,6 @@ export const submitProjectProposal = async (formData) => {
     const res = await client.post('/api/project-proposals', formData, {
       headers: { 'Content-Type': 'application/json' },
     })
-    console.log(res.data)
     return res.data
   } catch (error) {
     console.error('Error project proposal:', error.response || error.message)
@@ -46,11 +44,6 @@ export const submitProjectProposal = async (formData) => {
 }
 
 export const fetchAllProjects = async () => {
-  const res = await client.get('/api/github-projects')
-  return res.data
-}
-
-export const fetchProjectDetails = async (projectName) => {
-  const res = await client.get(`/api/github-projects/${projectName}`)
+  const res = await client.get('/api/projects')
   return res.data
 }

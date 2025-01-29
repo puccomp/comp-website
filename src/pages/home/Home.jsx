@@ -40,7 +40,7 @@ const HeroSection = () => {
         </Box>
         <Box textAlign="center">
           <Typography component="h1" variant="h2" fontWeight="bold">
-            Conheça a COMP
+            CONHEÇA A COMP
           </Typography>
           <Box
             sx={{
