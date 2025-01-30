@@ -20,7 +20,7 @@ export const fetchMembers = async () => {
 
 export const submitCV = async (formData) => {
   try {
-    const res = await client.post('/api/cv-applications', formData, {
+    const res = await client.post('/api/uploads/cv-applications', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     })
     return res.data

@@ -1,12 +1,14 @@
-import { useTheme } from '@emotion/react'
-import { alpha, Box, Container, Grid2, Typography } from '@mui/material'
 import React from 'react'
+import { useTheme } from '@emotion/react'
+import { alpha, Grid2, Typography } from '@mui/material'
 import ServiceCard from '../../components/cards/ServiceCard'
+import UniformSection from '../../components/UniformSection'
+
+// ICONS
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark'
 import AppShortcutIcon from '@mui/icons-material/AppShortcut'
 import DesignServicesIcon from '@mui/icons-material/DesignServices'
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest'
-import UniformSection from '../../components/UniformSection'
 
 const services = [
   {
