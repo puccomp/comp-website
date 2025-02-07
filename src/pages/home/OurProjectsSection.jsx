@@ -12,6 +12,7 @@ import {
   Backdrop,
   CircularProgress,
   Divider,
+  Alert,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import SectionTitle from '../../components/SectionTitle'
@@ -20,6 +21,7 @@ import UniformSection from '../../components/UniformSection'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import { fetchAllProjects } from '../../api/client'
 import TechnologyIcon from '../../components/TechnologyIcon'
+import { useQuery } from '@tanstack/react-query'
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
@@ -149,200 +151,202 @@ const ProjectDetails = ({ open, handleClose, project }) => {
 
 const OurProjectsSection = ({ bgColor }) => {
   const [open, setOpen] = useState(false)
-
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const [projects, setProjects] = useState([])
+  const {
+    data: projects = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const response = await fetchAllProjects()
+      const filteredProjects = response
+        .filter((project) => project.image_url)
+        .slice(0, 3)
 
-  const [loading, setLoading] = useState(false)
+      const enrichedProjects = await Promise.all(
+        filteredProjects.map(async (project) => {
+          try {
+            const [contributorsRes, technologiesRes] = await Promise.all([
+              fetch(project.contributors_url),
+              fetch(project.technologies_url),
+            ])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
+            const [contributors, technologies] = await Promise.all([
+              contributorsRes.json(),
+              technologiesRes.json(),
+            ])
 
-        const response = await fetchAllProjects()
-        const filteredProjects = response
-          .filter((project) => project.image_url)
-          .slice(0, 3)
+            return { ...project, contributors, technologies }
+          } catch (error) {
+            console.error(
+              `Error fetching details for project ${project.name}:`,
+              error
+            )
+            return { ...project, contributors: [], technologies: [] }
+          }
+        })
+      )
 
-        const enrichedProjects = await Promise.all(
-          filteredProjects.map(async (project) => {
-            try {
-              const [contributorsRes, technologiesRes] = await Promise.all([
-                fetch(project.contributors_url),
-                fetch(project.technologies_url),
-              ])
-
-              const [contributors, technologies] = await Promise.all([
-                contributorsRes.json(),
-                technologiesRes.json(),
-              ])
-
-              return { ...project, contributors, technologies }
-            } catch (error) {
-              console.error(
-                `Error fetching details for project ${project.name}:`,
-                error
-              )
-              return { ...project, contributors: [], technologies: [] }
-            }
-          })
-        )
-
-        setProjects(enrichedProjects)
-      } catch (error) {
-        console.error('Error fetching projects:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
+      return enrichedProjects
+    },
+    staleTime: 1000 * 60 * 5, // 5 min cache
+  })
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0)
   const selectedFeature = projects[selectedItemIndex] || {}
 
   return (
     <UniformSection bgColor={bgColor}>
-      <Grid2 container spacing={4}>
-        {/* LEFT SECTION */}
-        <Grid2 size={{ sm: 12, md: 6 }} component="nav">
-          <SectionTitle
-            title="Alguns de Nossos Projetos"
-            titleSize="h4"
-            sx={{ marginBottom: 2 }}
-          />
-          <Typography
-            component="p"
-            variant="body1"
-            color="text.secondary"
-            sx={{ marginBottom: { xs: 2, sm: 4 } }}
-          >
-            Aqui você encontra exemplo de projetos desenvolvidos pela{' '}
-            <strong>COMP</strong>. Alguns projetos podem ser aberto, com o
-            codigo publicado no github da empresa.
-          </Typography>
-
-          {/* MOBILE VIEW - Chips */}
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ display: { xs: 'flex', sm: 'none' } }}
-          >
-            {projects.map(({ name }, index) => (
-              <Chip
-                key={index}
-                label={`Projeto ${index + 1}`}
-                onClick={() => setSelectedItemIndex(index)}
-                clickable
-                color={selectedItemIndex === index ? 'primary' : 'default'}
-              />
-            ))}
-          </Stack>
-
-          {/* MOBILE VIEW - Selected Project */}
-          <Card
-            variant="outlined"
-            sx={{
-              display: { xs: 'block', sm: 'none' },
-              marginTop: 4,
-            }}
-          >
-            <Box
-              sx={{
-                backgroundImage: `url(${selectedFeature.image_url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                height: 280,
-              }}
+      {isLoading && (
+        <Backdrop open>
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
+      {isError && (
+        <Alert severity="error">
+          Ocorreu um erro ao carregar sessão dos projetos.
+        </Alert>
+      )}
+      {!isLoading && !isError && (
+        <Grid2 container spacing={4}>
+          {/* LEFT SECTION */}
+          <Grid2 size={{ sm: 12, md: 6 }} component="nav">
+            <SectionTitle
+              title="Alguns de Nossos Projetos"
+              titleSize="h4"
+              sx={{ marginBottom: 2 }}
             />
-            <Box sx={{ padding: 2 }}>
-              <Stack direction="row" justifyContent="space-between">
-                <Typography variant="body1" fontWeight="bold">
-                  {formatProjectName(selectedFeature.name)}
-                </Typography>
-                <Typography color="text.secondary" variant="body2">
-                  {formatDate(selectedFeature.created_at)}
-                </Typography>
-              </Stack>
+            <Typography
+              component="p"
+              variant="body1"
+              color="text.secondary"
+              sx={{ marginBottom: { xs: 2, sm: 4 } }}
+            >
+              Aqui você encontra exemplo de projetos desenvolvidos pela{' '}
+              <strong>COMP</strong>. Alguns projetos podem ser aberto, com o
+              codigo publicado no github da empresa.
+            </Typography>
 
-              <Typography
-                color="primary"
-                variant="body2"
-                fontWeight="bold"
-                onClick={handleOpen}
+            {/* MOBILE VIEW - Chips */}
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ display: { xs: 'flex', sm: 'none' } }}
+            >
+              {projects.map(({ name }, index) => (
+                <Chip
+                  key={index}
+                  label={`Projeto ${index + 1}`}
+                  onClick={() => setSelectedItemIndex(index)}
+                  clickable
+                  color={selectedItemIndex === index ? 'primary' : 'default'}
+                />
+              ))}
+            </Stack>
+
+            {/* MOBILE VIEW - Selected Project */}
+            <Card
+              variant="outlined"
+              sx={{
+                display: { xs: 'block', sm: 'none' },
+                marginTop: 4,
+              }}
+            >
+              <Box
                 sx={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  marginTop: 2,
+                  backgroundImage: `url(${selectedFeature.image_url})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  height: 280,
                 }}
-              >
-                Ver projeto completo
-                <ChevronRightRoundedIcon fontSize="small" />
-              </Typography>
-            </Box>
-          </Card>
-
-          {/* DESKTOP VIEW - Project List */}
-          <Stack
-            spacing={2}
-            sx={{
-              display: { xs: 'none', sm: 'flex' },
-            }}
-          >
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                name={project.name}
-                createdAt={project.created_at}
-                language={project.language}
-                selected={selectedItemIndex === index}
-                onClick={() => setSelectedItemIndex(index)}
               />
-            ))}
-          </Stack>
-        </Grid2>
+              <Box sx={{ padding: 2 }}>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography variant="body1" fontWeight="bold">
+                    {formatProjectName(selectedFeature.name)}
+                  </Typography>
+                  <Typography color="text.secondary" variant="body2">
+                    {formatDate(selectedFeature.created_at)}
+                  </Typography>
+                </Stack>
 
-        {/* RIGHT SECTION - Project Image */}
-        <Grid2 size={{ sm: 12, md: 6 }}>
-          <Card
-            variant="outlined"
-            sx={{
-              height: '100%',
-              display: { xs: 'none', sm: 'flex' },
-              flexDirection: 'column',
-              px: 2,
-              pt: 2,
-            }}
-          >
-            <Box
-              component="img"
-              src={selectedFeature.image_url}
-              alt={selectedFeature.title}
+                <Typography
+                  color="primary"
+                  variant="body2"
+                  fontWeight="bold"
+                  onClick={handleOpen}
+                  sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    marginTop: 2,
+                  }}
+                >
+                  Ver projeto completo
+                  <ChevronRightRoundedIcon fontSize="small" />
+                </Typography>
+              </Box>
+            </Card>
+
+            {/* DESKTOP VIEW - Project List */}
+            <Stack
+              spacing={2}
               sx={{
-                width: '100%',
-                height: '100%',
-                maxHeight: 467,
-                objectFit: 'cover',
-                borderRadius: 1,
-                border: 2,
-                borderColor: 'divider',
+                display: { xs: 'none', sm: 'flex' },
               }}
-            />
-            <Box textAlign="center">
-              <Button onClick={handleOpen}>Ver Projeto</Button>
-            </Box>
-          </Card>
-        </Grid2>
-      </Grid2>
+            >
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  name={project.name}
+                  createdAt={project.created_at}
+                  language={project.language}
+                  selected={selectedItemIndex === index}
+                  onClick={() => setSelectedItemIndex(index)}
+                />
+              ))}
+            </Stack>
+          </Grid2>
 
+          {/* RIGHT SECTION - Project Image */}
+          <Grid2 size={{ sm: 12, md: 6 }}>
+            <Card
+              variant="outlined"
+              sx={{
+                height: '100%',
+                display: { xs: 'none', sm: 'flex' },
+                flexDirection: 'column',
+                px: 2,
+                pt: 2,
+              }}
+            >
+              <Box
+                component="img"
+                src={selectedFeature.image_url}
+                alt={selectedFeature.title}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  maxHeight: 467,
+                  objectFit: 'cover',
+                  borderRadius: 1,
+                  border: 2,
+                  borderColor: 'divider',
+                }}
+              />
+              <Box textAlign="center">
+                <Button onClick={handleOpen}>Ver Projeto</Button>
+              </Box>
+            </Card>
+          </Grid2>
+        </Grid2>
+      )}
       <ProjectDetails
         open={open}
         handleClose={handleClose}
-        loading={loading}
+        loading={isLoading}
         project={selectedFeature}
       />
     </UniformSection>

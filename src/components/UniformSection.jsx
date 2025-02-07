@@ -8,7 +8,7 @@ const UniformSection = ({ ref, bgColor, zIdx = 1, children }) => {
       component="section"
       sx={{
         bgcolor: bgColor,
-        py: { xs: 2, sm: 4, lg: 6 },
+        py: { xs: 4, sm: 6, lg: 8 },
         zIndex: zIdx,
       }}
     >
