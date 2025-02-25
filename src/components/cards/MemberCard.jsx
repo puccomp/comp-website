@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { Instagram, GitHub, LinkedIn } from '@mui/icons-material'
 import MemberAvatar from '../MemberAvatar'
+import { formatDateTextual } from '../../utils/dateUtils'
 
 const MemberCard = ({
   id,
@@ -35,15 +36,6 @@ const MemberCard = ({
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    return date.toLocaleDateString('pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
 
   return (
     <>
@@ -115,7 +107,9 @@ const MemberCard = ({
                   <strong>
                     {isActive ? 'Data de ingresso:' : 'Data de saída:'}
                   </strong>{' '}
-                  {isActive ? formatDate(entryDate) : formatDate(exitDate)}
+                  {isActive
+                    ? formatDateTextual(entryDate)
+                    : formatDateTextual(exitDate)}
                 </Typography>
               </Box>
               <Divider sx={{ my: 2 }} />

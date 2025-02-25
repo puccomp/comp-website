@@ -1,6 +1,12 @@
 import React from 'react'
-import { Card, Container, Typography, Box, useTheme } from '@mui/material'
-import { alpha } from '@mui/material/styles'
+import {
+  Card,
+  Container,
+  Typography,
+  Box,
+  useTheme,
+  alpha,
+} from '@mui/material'
 import ProjectProposalForm from '../components/forms/ProjectProposalForm'
 import ParticlesBackground from '../components/ParticlesBackground'
 
@@ -8,13 +14,20 @@ const ProjectSubmission = () => {
   const theme = useTheme()
 
   return (
-    <Box>
+    <Box
+      sx={{
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+      }}
+    >
       <ParticlesBackground />
 
       <Container
         maxWidth="md"
         sx={{
-          paddingY: 8,
           position: 'relative',
         }}
       >

@@ -16,7 +16,7 @@ import CustomScrollbar from './components/CustomScrollbar'
 
 // PAGES
 import Home from './pages/home/Home'
-import About from './pages/About'
+import About from './pages/about/About'
 import Team from './pages/Team'
 import Apply from './pages/Apply'
 import ProjectSubmission from './pages/ProjectSubmission'

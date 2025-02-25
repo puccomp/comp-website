@@ -8,6 +8,6 @@ export default defineConfig({
     allowedHosts: ['puccomp.com.br'],
   },
   preview: {
-    allowedHosts: ['puccomp.com.br'], 
+    allowedHosts: ['puccomp.com.br'],
   },
 })

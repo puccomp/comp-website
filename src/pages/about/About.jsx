@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import {
   Box,
   Container,
@@ -11,23 +12,28 @@ import {
   Tabs,
   Tab,
   useMediaQuery,
-  styled,
   useTheme,
 } from '@mui/material'
+import { Paragraph } from '../../styles/Texts'
+
+// API
+import { fetchMemories } from '../../api/client'
 
 // ICONS
 import HomeIcon from '@mui/icons-material/Home'
 import ApartmentIcon from '@mui/icons-material/Apartment'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 
 // IMAGES
-import puccoreuIMG from '../assets/images/puccoreu.png'
-import puclibaIMG from '../assets/images/pucliba.png'
+import puccoreuIMG from '../../assets/images/puccoreu.png'
+import puclibaIMG from '../../assets/images/pucliba.png'
 
 // COMPONENTS
-import SectionContainer from '../components/SectionContainer'
-import SectionTitle from '../components/SectionTitle'
-
-import { Paragraph } from '../styles/Texts'
+import SectionContainer from '../../components/SectionContainer'
+import SectionTitle from '../../components/SectionTitle'
+import TabContent from '../../components/TabContent'
+import HistoryTab from './HistoryTab'
+import MemoriesTab from './MemoriesTab'
 
 const About = () => {
   const locations = [
@@ -50,34 +56,33 @@ const About = () => {
         'https://www.google.com/maps?q=R.+Cláudio+Manoel,+1162,+Prédio+4+MG,+30140-100',
     },
   ]
-
   const [selectedLocation, setSelectedLocation] = useState(locations[0])
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down('sm'))
-
   const handleSelectLocation = (location) => {
     setSelectedLocation(location)
   }
-
   const handleViewMap = () => {
     if (selectedLocation.mapUrl) window.open(selectedLocation.mapUrl, '_blank')
   }
 
   const [tabValue, setTabValue] = useState(0)
-
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue)
   }
 
-  const TabContent = styled(Box)(({ theme }) => ({
-    padding: theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
-    color: theme.palette.text.secondary,
-    [theme.breakpoints.up('md')]: {
-      padding: theme.spacing(2),
-    },
-  }))
+  const {
+    data: memories,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['memories'],
+    queryFn: fetchMemories,
+  })
 
   const theme = useTheme()
+  const isXs = useMediaQuery(theme.breakpoints.down('sm'))
+  const isSm = useMediaQuery(
+    theme.breakpoints.up('sm') && theme.breakpoints.down('md')
+  )
 
   return (
     <>
@@ -102,13 +107,12 @@ const About = () => {
             titleBgColor={theme.palette.background.paper}
           >
             <Paragraph>
-              Nosso propósito é oferecer oferecer{' '}
-              <strong>soluções de software</strong> de alta qualidade e
-              inovação, sempre alinhadas às necessidades exclusivas de cada
-              cliente. Além disso, temos como missão contribuir para o
-              crescimento pessoal e profissional de nossos membros,
-              proporcionando vivências reais de mercado que conectam o rigor
-              acadêmico à prática empresarial.
+              Nosso propósito é oferecer <strong>soluções de software</strong>{' '}
+              de alta qualidade e inovação, sempre alinhadas às necessidades
+              exclusivas de cada cliente. Além disso, temos como missão
+              contribuir para o crescimento pessoal e profissional de nossos
+              membros, proporcionando vivências reais de mercado que conectam o
+              rigor acadêmico à prática empresarial.
             </Paragraph>
           </SectionContainer>
         </Stack>
@@ -138,98 +142,24 @@ const About = () => {
               onChange={handleChangeTab}
               aria-label="tabs example"
             >
+              <Tab label="Memórias" />
               <Tab label="História" />
-              <Tab label="Memórias" disabled />
               <Tab label="Valores" disabled />
             </Tabs>
           </Box>
-          {tabValue === 0 && (
-            <TabContent>
-              <Paragraph>
-                A COMP nasceu no <strong>dia 3 de março de 2024</strong>,
-                inicialmente sob o nome
-                <strong> T.F.R.L.</strong>, uma sigla que homenageava os
-                fundadores:
-                <strong>
-                  {' '}
-                  Thomas Neuenschwander, Matheus Fagundes, Raphael Arnout e Luca
-                  Gonzaga
-                </strong>
-                , alunos do curso de Ciência da Computação do Instituto de
-                Ciências Exatas e Informática (ICEI) da PUC Minas. Esses
-                entusiastas uniram suas habilidades e paixão pela tecnologia
-                para criar uma iniciativa que fosse além do ambiente acadêmico,
-                conectando a teoria aprendida em sala de aula com as demandas
-                reais do mercado. Logo após o lançamento, a empresa ganhou o
-                nome pelo qual hoje é amplamente conhecida:{' '}
-                <strong>COMP</strong>, uma abreviação direta de "computação",
-                que reflete a essência da nossa área de atuação e reforça o
-                nosso propósito de desenvolver soluções tecnológicas
-                personalizadas.
-              </Paragraph>
-              <Paragraph>
-                O primeiro projeto realizado pela COMP foi para{' '}
-                <strong>Bárbara Costa</strong>, uma influenciadora fitness em
-                ascensão, que desejava uma <strong>Landing Page</strong>{' '}
-                atrativa para o lançamento do seu curso intitulado
-                <em> "Dia de 26 Horas"</em>. Esse desafio não só marcou a
-                estreia da empresa no mercado, como também proporcionou um
-                aprendizado prático valioso. Durante o desenvolvimento do
-                projeto, a equipe cresceu com a chegada de{' '}
-                <strong>Vinicius Goddard</strong>, um talentoso especialista em
-                desenvolvimento web e design, também aluno de Ciência da
-                Computação da PUC Minas. Sua contribuição foi essencial para o
-                sucesso do projeto e para o fortalecimento da equipe.
-              </Paragraph>
-
-              <Paragraph>
-                Logo após o término do primeiro trabalho, a COMP assumiu um
-                desafio ainda mais complexo: o desenvolvimento do software
-                chamado <strong>"Bolão Sorte Online"</strong>, uma solução
-                inovadora baseada em filtros estatísticos, projetada para
-                aumentar as probabilidades de sucesso dos usuários em loterias
-                como a <strong>Mega-Sena</strong> e a <strong>Quina</strong>. O
-                cliente, um economista entusiasta de loterias, procurava uma
-                ferramenta que combinasse análises matemáticas avançadas com
-                facilidade de uso, possibilitando a criação de bolões
-                estratégicos e personalizados. Esse projeto exigiu um alto nível
-                de{' '}
-                <strong>conhecimento técnico, inovação e criatividade</strong>,
-                desafiando a equipe a explorar conceitos de estatística aplicada
-                e design de software robusto.
-              </Paragraph>
-
-              <Paragraph>
-                Agora, em <strong>2025</strong>, a COMP está pronta para iniciar
-                uma nova fase em sua história. Com o objetivo de expandir suas
-                operações e promover o engajamento acadêmico, a empresa abrirá
-                suas portas para estudantes de todos os cursos do{' '}
-                <strong>ICEI</strong>, por meio de um processo seletivo que
-                valoriza a diversidade de habilidades e perspectivas. Essa
-                iniciativa busca não apenas aumentar a capacidade técnica e
-                criativa da equipe, mas também consolidar a COMP como um espaço
-                de aprendizado e inovação, unindo excelência acadêmica e prática
-                de mercado.
-              </Paragraph>
-            </TabContent>
-          )}
-
-          {tabValue === 1 && (
-            <TabContent>
-              <Paragraph>
-                Conteúdo da aba "Memórias". Aqui podem estar as memórias da
-                equipe ou momentos importantes.
-              </Paragraph>
-            </TabContent>
-          )}
-          {tabValue === 2 && (
-            <TabContent>
-              <Paragraph>
-                Conteúdo da aba "Valores". Insira os valores ou missões da
-                equipe ou da empresa.
-              </Paragraph>
-            </TabContent>
-          )}
+          <MemoriesTab
+            value={tabValue}
+            index={0}
+            memories={memories}
+            breakpoints={{ isXs: isXs, isSm: isSm }}
+          />
+          <HistoryTab value={tabValue} index={1} />
+          <TabContent value={tabValue} index={3}>
+            <Paragraph>
+              Conteúdo da aba "Valores". Insira os valores ou missões da equipe
+              ou da empresa.
+            </Paragraph>
+          </TabContent>
         </Box>
       </Container>
       {/* LOCATION SECTION */}
@@ -247,7 +177,7 @@ const About = () => {
             borderColor: 'divider',
           }}
         >
-          {isMobile ? (
+          {isXs ? (
             <>
               <SectionTitle title="Onde Fica ?" />
               <Divider />
@@ -321,11 +251,7 @@ const About = () => {
                       backgroundColor: 'primary.main',
                       color: '#fff',
                     },
-                    border:
-                      location.id === selectedLocation.id
-                        ? `1px solid ${theme.palette.primary.main}`
-                        : `1px solid '${theme.palette.divider}'`,
-
+                    border: `1px solid ${location.id === selectedLocation.id ? theme.palette.primary.main : theme.palette.divider}`,
                     borderRadius: theme.shape.borderRadius,
                     padding: theme.spacing(0.2),
                   }}

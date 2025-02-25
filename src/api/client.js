@@ -47,3 +47,8 @@ export const fetchAllProjects = async () => {
   const res = await client.get('/api/projects')
   return res.data
 }
+
+export const fetchMemories = async () => {
+  const res = await client.get('/api/memories')
+  return res.data
+}

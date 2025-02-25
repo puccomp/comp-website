@@ -8,8 +8,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  Box,
-  Grid,
+  Grid2,
   Stack,
   IconButton,
   Divider,
@@ -30,17 +29,10 @@ const ProjectProposalForm = () => {
     projectDescription: '',
     appFeatures: '',
     visualIdentity: 'Não',
-    budget: '',
   })
 
-  const {
-    fullName,
-    phone,
-    projectDescription,
-    appFeatures,
-    visualIdentity,
-    budget,
-  } = formData
+  const { fullName, phone, projectDescription, appFeatures, visualIdentity } =
+    formData
 
   const { handleSubmit, loading, success, error } = useSubmit()
 
@@ -75,7 +67,6 @@ const ProjectProposalForm = () => {
         projectDescription: '',
         appFeatures: '',
         visualIdentity: 'Não',
-        budget: '',
       })
     }
     if (error) {
@@ -94,8 +85,8 @@ const ProjectProposalForm = () => {
   return (
     <>
       <form onSubmit={onSubmit}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} md={6}>
+        <Grid2 container spacing={1}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             <NameField
               label="Seu Nome"
               name="fullName"
@@ -103,19 +94,19 @@ const ProjectProposalForm = () => {
               onChange={handleChange}
               required
             />
-          </Grid>
-          <Grid item xs={12} md={6}>
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
             <PhoneNumberField
               label="Telefone"
               name="phone"
               value={phone}
-              onChange={(_e, rawValue) => {
+              onChange={(_e, rawValue) =>
                 setFormData((prev) => ({ ...prev, phone: rawValue }))
-              }}
+              }
               required
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
         <TextField
           fullWidth
           label="O que você quer construir?"
@@ -130,7 +121,7 @@ const ProjectProposalForm = () => {
         />
         <TextField
           fullWidth
-          label="Quais seriam as funcionalidades da sua aplicação?"
+          label="Quais seriam as funcionalidades do seu projeto?"
           variant="outlined"
           margin="dense"
           multiline
@@ -158,15 +149,6 @@ const ProjectProposalForm = () => {
             <FormControlLabel value="Não" control={<Radio />} label="Não" />
           </RadioGroup>
         </FormControl>
-        <TextField
-          fullWidth
-          label="Qual é seu orçamento disponível?"
-          variant="outlined"
-          margin="dense"
-          name="budget"
-          value={budget}
-          onChange={handleChange}
-        />
         <Stack
           marginTop="1rem"
           direction="row"
@@ -175,15 +157,14 @@ const ProjectProposalForm = () => {
           spacing={2}
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <IconButton
-            size="small"
-            variant="text"
-            color="primary"
+          <Button
+            variant="outlined"
+            startIcon={<ArrowBackIosIcon />}
             onClick={() => navigate('/')}
+            size="small"
           >
-            <ArrowBackIosIcon />
-          </IconButton>
-
+            Voltar
+          </Button>
           <Button
             variant="contained"
             color="primary"

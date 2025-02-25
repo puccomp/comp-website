@@ -14,23 +14,19 @@ import {
   Divider,
   Alert,
 } from '@mui/material'
-import { useEffect, useState } from 'react'
-import SectionTitle from '../../components/SectionTitle'
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded'
-import UniformSection from '../../components/UniformSection'
-import PlayArrowIcon from '@mui/icons-material/PlayArrow'
-import { fetchAllProjects } from '../../api/client'
-import TechnologyIcon from '../../components/TechnologyIcon'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { fetchAllProjects } from '../../api/client'
+import { formatDateTextual } from '../../utils/dateUtils'
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('pt-BR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
+// ICONS
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+
+// COMPONENTS
+import SectionTitle from '../../components/SectionTitle'
+import UniformSection from '../../components/UniformSection'
+import TechnologyIcon from '../../components/TechnologyIcon'
 
 const formatProjectName = (name) => {
   if (!name || typeof name !== 'string') return ''
@@ -70,7 +66,7 @@ const ProjectCard = ({ name, createdAt, selected, onClick }) => {
             {formatProjectName(name)}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            {formatDate(createdAt)}
+            {formatDateTextual(createdAt)}
           </Typography>
         </Box>
       </Stack>
@@ -88,7 +84,7 @@ const ProjectDetails = ({ open, handleClose, project }) => {
             {formatProjectName(project.name)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {formatDate(project.created_at)}
+            {formatDateTextual(project.created_at)}
           </Typography>
         </Box>
 
@@ -269,7 +265,7 @@ const OurProjectsSection = ({ bgColor }) => {
                     {formatProjectName(selectedFeature.name)}
                   </Typography>
                   <Typography color="text.secondary" variant="body2">
-                    {formatDate(selectedFeature.created_at)}
+                    {formatDateTextual(selectedFeature.created_at)}
                   </Typography>
                 </Stack>
 
