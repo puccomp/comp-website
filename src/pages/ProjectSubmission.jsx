@@ -28,6 +28,7 @@ const ProjectSubmission = () => {
       <Container
         maxWidth="md"
         sx={{
+          py: 2,
           position: 'relative',
         }}
       >

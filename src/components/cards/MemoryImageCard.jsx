@@ -46,7 +46,11 @@ const MemoryImageCard = ({ imageUrl, title, date, description }) => {
           }
           actionIcon={
             description && (
-              <Tooltip title={description}>
+              <Tooltip
+                title={description}
+                enterTouchDelay={0}
+                leaveTouchDelay={3000}
+              >
                 <IconButton sx={{ color: 'text.secondary' }}>
                   <HelpOutlineIcon fontSize="small" />
                 </IconButton>

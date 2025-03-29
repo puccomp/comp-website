@@ -96,27 +96,30 @@ const ProjectDetails = ({ open, handleClose, project }) => {
           {project.description || 'Nenhuma disponível.'}
         </Typography>
 
-        <Divider sx={{ my: 2 }} />
+        {(project.technologies?.length > 0 ||
+          project.contributors?.length > 0) && <Divider sx={{ my: 2 }} />}
 
         <Grid2 container spacing={2}>
-          <Grid2 size={{ xs: 12, sm: 6 }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Tecnologias
-            </Typography>
-            <Stack direction="row" flexWrap="wrap">
-              {project.technologies &&
-                project.technologies.map((tech) => (
+          {project.technologies?.length > 0 && (
+            <Grid2 size={{ xs: 12, sm: 6 }}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                Tecnologias
+              </Typography>
+              <Stack direction="row" flexWrap="wrap">
+                {project.technologies.map((tech) => (
                   <TechnologyIcon key={tech.id} technology={tech} />
                 ))}
-            </Stack>
-          </Grid2>
-          <Grid2 size={{ xs: 12, sm: 6 }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Contribuidores
-            </Typography>
-            <Stack direction="row" flexWrap="wrap">
-              {project.contributors &&
-                project.contributors.map((contributor) => (
+              </Stack>
+            </Grid2>
+          )}
+
+          {project.contributors?.length > 0 && (
+            <Grid2 size={{ xs: 12, sm: 6 }}>
+              <Typography variant="h6" fontWeight="bold" gutterBottom>
+                Contribuidores
+              </Typography>
+              <Stack direction="row" flexWrap="wrap">
+                {project.contributors.map((contributor) => (
                   <Chip
                     key={contributor.member_id}
                     avatar={
@@ -137,8 +140,9 @@ const ProjectDetails = ({ open, handleClose, project }) => {
                     sx={{ m: 0.5 }}
                   />
                 ))}
-            </Stack>
-          </Grid2>
+              </Stack>
+            </Grid2>
+          )}
         </Grid2>
       </DialogContent>
     </Dialog>
